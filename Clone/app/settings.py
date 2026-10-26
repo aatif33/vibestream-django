@@ -1,15 +1,17 @@
 from pathlib import Path
 import os
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = "7mr#@5a-#q^&uv+32m^ie2uins#t$p*v5@(#lm3l$ycn)bfpfl"
+SECRET_KEY = ")mv%f&j5f4j2&nlgl!irbc@6oks&^xkj1exyq=pku433(&k%p5"
 DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
+    "vibestream-django.vercel.app",
     "vibestream-django-g4gr2xv0x-aatifs-projects-5818b1a7.vercel.app/",
     "localhost",
     "127.0.0.1",
 ]
 CSRF_TRUSTED_ORIGINS = [
+    "https://vibestream-django.vercel.app",
     "https://vibestream-django-g4gr2xv0x-aatifs-projects-5818b1a7.vercel.app/",
 ]
 INSTALLED_APPS = [
