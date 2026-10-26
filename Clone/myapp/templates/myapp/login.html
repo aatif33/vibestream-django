@@ -1,0 +1,8 @@
+{% extends 'myapp/base.html' %}
+{% block title %}Log in · VibeStream{% endblock %}
+{% block content %}
+<section class="auth-layout"><div class="auth-art"><span class="eyebrow">WELCOME BACK</span><h1>Your next favorite<br>is one <span class="gradient-text">play away.</span></h1><p>Pick up where the good stuff begins.</p><div class="auth-orbit">♫ <span>▶</span> ✦</div></div>
+<div class="auth-panel"><div class="auth-heading"><span class="eyebrow">GOOD TO SEE YOU</span><h2>Log in</h2><p>Enter your details to get back to your world.</p></div>
+<form method="post" class="auth-form">{% csrf_token %}<label for="username">Username</label><input id="username" name="username" autocomplete="username" placeholder="Your username" required><label for="password">Password</label><div class="password-wrap"><input id="password" type="password" name="password" autocomplete="current-password" placeholder="Your password" required><button type="button" class="password-toggle" data-toggle-password="password">Show</button></div><button class="button button-primary auth-submit" type="submit">Log in <span>↗</span></button></form>
+<p class="auth-switch">New around here? <a href="{% url 'signup' %}">Create an account</a></p></div></section>
+{% endblock %}
