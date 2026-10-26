@@ -1,7 +1,7 @@
 from pathlib import Path
 import os
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = "hex2ovj6nr2g-l67&qts#a_09bl9fy8k1x+htk&_2*i3c1g(mx"
+SECRET_KEY = "7mr#@5a-#q^&uv+32m^ie2uins#t$p*v5@(#lm3l$ycn)bfpfl"
 DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
