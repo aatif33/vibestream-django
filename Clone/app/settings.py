@@ -5,7 +5,7 @@ SECRET_KEY = "hex2ovj6nr2g-l67&qts#a_09bl9fy8k1x+htk&_2*i3c1g(mx"
 DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
-    "https://vibestream-django-g4gr2xv0x-aatifs-projects-5818b1a7.vercel.app/",
+    "vibestream-django-g4gr2xv0x-aatifs-projects-5818b1a7.vercel.app/",
     "localhost",
     "127.0.0.1",
 ]
