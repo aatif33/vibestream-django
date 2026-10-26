@@ -6,13 +6,13 @@ DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
 
 ALLOWED_HOSTS = [
     "vibestream-django.vercel.app",
-    "vibestream-django-g4gr2xv0x-aatifs-projects-5818b1a7.vercel.app/",
+    "vibestream-django-adege526a-aatifs-projects-5818b1a7.vercel.app/",
     "localhost",
     "127.0.0.1",
 ]
 CSRF_TRUSTED_ORIGINS = [
     "https://vibestream-django.vercel.app",
-    "https://vibestream-django-g4gr2xv0x-aatifs-projects-5818b1a7.vercel.app/",
+    "https://vibestream-django-adege526a-aatifs-projects-5818b1a7.vercel.app/",
 ]
 INSTALLED_APPS = [
     "django.contrib.admin",
