@@ -24,3 +24,12 @@ media/
 .vscode/
 .DS_Store
 Thumbs.db
+.env
+.env.*
+!.env.example
+venv/
+.venv/
+__pycache__/
+*.py[cod]
+db.sqlite3
+staticfiles/

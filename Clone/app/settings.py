@@ -1,19 +1,41 @@
+
 from pathlib import Path
 import os
+import dj_database_url
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent.parent
-SECRET_KEY = ")mv%f&j5f4j2&nlgl!irbc@6oks&^xkj1exyq=pku433(&k%p5"
-DEBUG = os.environ.get("DJANGO_DEBUG", "False").lower() == "true"
+
+# Load local environment variables
+load_dotenv(BASE_DIR / ".env")
+
+SECRET_KEY = os.environ.get(
+    "DJANGO_SECRET_KEY",
+    "django-insecure-local-development-only-change-me",
+)
+
+DEBUG = os.environ.get("DJANGO_DEBUG", "True").lower() == "true"
+
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
 
 ALLOWED_HOSTS = [
-    "vibestream-django.vercel.app",
-    "vibestream-django-13qmcfy2z-aatifs-projects-5818b1a7.vercel.app",
-    "localhost",
-    "127.0.0.1",
+    host.strip()
+    for host in os.environ.get(
+        "DJANGO_ALLOWED_HOSTS",
+        "localhost,127.0.0.1,.vercel.app",
+    ).split(",")
+    if host.strip()
 ]
+
 CSRF_TRUSTED_ORIGINS = [
-    "https://vibestream-django.vercel.app",
-    "https://vibestream-django-13qmcfy2z-aatifs-projects-5818b1a7.vercel.app",
+    origin.strip()
+    for origin in os.environ.get(
+        "CSRF_TRUSTED_ORIGINS",
+        "https://*.vercel.app",
+    ).split(",")
+    if origin.strip()
 ]
+
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
@@ -23,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "myapp",
 ]
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
@@ -32,36 +55,88 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
 ROOT_URLCONF = "app.urls"
-TEMPLATES = [{
-    "BACKEND": "django.template.backends.django.DjangoTemplates",
-    "DIRS": [],
-    "APP_DIRS": True,
-    "OPTIONS": {"context_processors": [
-        "django.template.context_processors.request",
-        "django.contrib.auth.context_processors.auth",
-        "django.contrib.messages.context_processors.messages",
-    ]},
-}]
+
+TEMPLATES = [
+    {
+        "BACKEND": "django.template.backends.django.DjangoTemplates",
+        "DIRS": [],
+        "APP_DIRS": True,
+        "OPTIONS": {
+            "context_processors": [
+                "django.template.context_processors.request",
+                "django.contrib.auth.context_processors.auth",
+                "django.contrib.messages.context_processors.messages",
+            ],
+        },
+    },
+]
+
 WSGI_APPLICATION = "app.wsgi.application"
 ASGI_APPLICATION = "app.asgi.application"
-DATABASES = {"default": {"ENGINE": "django.db.backends.sqlite3", "NAME": BASE_DIR / "db.sqlite3"}}
+
+# PostgreSQL when DATABASE_URL is configured;
+# otherwise use local SQLite.
+DATABASE_URL = os.environ.get("DATABASE_URL", "").strip()
+
+if DATABASE_URL:
+    DATABASES = {
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=0,
+            ssl_require=not DEBUG,
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+
 AUTH_PASSWORD_VALIDATORS = [
-    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"},
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
+    {
+        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.CommonPasswordValidator"
+    },
+    {
+        "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"
+    },
 ]
+
 LANGUAGE_CODE = "en-us"
 TIME_ZONE = "Asia/Kolkata"
 USE_I18N = True
 USE_TZ = True
+
 STATIC_URL = "/static/"
 STATIC_ROOT = BASE_DIR / "staticfiles"
 STATICFILES_DIRS = [BASE_DIR / "static"]
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
 MEDIA_URL = "/media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = "DENY"
+SECURE_REFERRER_POLICY = "same-origin"
+
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = (
+        "HTTP_X_FORWARDED_PROTO",
+        "https",
+    )
